@@ -16,7 +16,6 @@
 @property (readwrite,nonatomic) NSMutableArray *dataList;
 @property (readwrite,nonatomic) BOOL table_ok, db_open_status;
 @property (retain,nonatomic) NSArray *my_columns_names;
-
 - (IBAction)saveButton:(id)sender;
 - (BOOL)openDBwithSQLName:(NSString *)sqlname;
 - (BOOL)createTable:(NSString *)tablename WithColumns:(NSArray *)columnNames;
@@ -31,4 +30,5 @@
 
 
 - (IBAction)confirmpasswords:(id)sender;
+- (IBAction)confirmUser:(id)sender;
 @end
