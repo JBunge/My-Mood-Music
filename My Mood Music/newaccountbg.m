@@ -149,10 +149,8 @@
     }
 }
 
-//Made this to input the user into the database!!!
-//This needs to happen on submit but not sure right now how to do that.
--(void)callInsertService{
-	NSURL *url = [NSURL URLWithString:@"http://web.ics.purdue.edu/~bunge/mymood.php?todo=setU&username=" + username.text + "&password=" +password.text + "&year=" + year.text];
+(IBAction)confirmUser:(id)sender{
+	NSURL *url = [NSURL URLWithString:@"http://web.ics.purdue.edu/~bunge/mymood.php?todo=setU&username=" + self.username.text + "&password=" +self.password.text + "&year=" + self.year.text];
 	ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
     
     [request setDidFinishSelector:@selector(requestCompleted:)];
@@ -160,23 +158,28 @@
     
     [request setDelegate:self];
     [request startAsynchronous];
+
 }
 
-//This is to see if the user already exists in the database if it does then we need to have them make a new user.
-- (void)requestCompleted:(ASIHTTPRequest *)request
+- (void)requestFinished:(ASIHTTPRequest *)request
 {
-    NSString *responseString = [request responseString];
-    NSLog(@"API Response: %@", responseString);
+   // Use when fetching text data
+   NSString *responseString = [request responseString];
+   
+   NSArray *valueArray = [responseString componentsSeparatedByString:@"|"];
+   NSString *works = [valueArray objectAtIndex:0];
     
-    NSArray *valueArray = [responseString componentsSeparatedByString:@"|"];
-    NSString *works = [valueArray objectAtIndex:0];
-    
-    if(![works isEqualToString:@"User exists"]){
-	
-	}else{
+   if(![works isEqualToString:@"User exists"]){
+   
+   }else{
 		//they need to pick a new user name
-	}
-    
+   }
+   
+}
+ 
+- (void)requestFailed:(ASIHTTPRequest *)request
+{
+   NSError *error = [request error];
 }
 
 /*-(BOOL)openDBwithSQLName:(NSString *)sqlname {
@@ -188,7 +191,6 @@
     }
     return is_Opened;
 }
-
 -(BOOL)createTable:(NSString *)tablename WithColumns:(NSArray *)columnNames {
     BOOL has_beencreated = NO;
     NSString *fieldSet = @"";
@@ -209,7 +211,6 @@
     }
     return has_beencreated;
 }
-
 -(BOOL)addItemstoTable:(NSString *)usetable WithColumnValues:(NSDictionary *)valueObject{
     BOOL has_beenadded = NO;
     NSString *mycolumns = @"";
@@ -234,7 +235,6 @@
     }
     return has_beenadded;
 }
-
 -(void)closeDB{
     sqlite3_close(my_dbname);
     db_open_status = NO;
