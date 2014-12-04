@@ -10,4 +10,5 @@
 
 @interface PreferenceTableViewController : UITableViewController
 
+- (IBAction)grabURLInBackground:(id)sender
 @end
