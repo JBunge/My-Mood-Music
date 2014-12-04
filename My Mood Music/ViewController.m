@@ -63,24 +63,23 @@
     else {
         NSLog(@"EMPTY");
     }
-    
-    NSURL *url = [NSURL URLWithString:@"http://web.ics.purdue.edu/~bunge/mymood.php?todo=checkU&username=" + username.text + "&password=" +password.text];
-	ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
-    
-    [request setDidFinishSelector:@selector(requestCompleted:)];
-    [request setDidFailSelector:@selector(requestError:)];
-    
+	NSURL *url = [NSURL URLWithString:@"http://web.ics.purdue.edu/~bunge/mymood.php?todo=checkU&username=" + self.username.text + "&password=" +self.password.text];
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
     [request setDelegate:self];
     [request startAsynchronous];
-	
-	//I am not sure if I should make this a seperate function
-	NSString *responseString = [request responseString];
-    NSLog(@"API Response: %@", responseString);
+}
+ 
+- (void)requestFinished:(ASIHTTPRequest *)request
+{
+   // Use when fetching text data
+   NSString *responseString = [request responseString];
+   
+   NSLog(@"API Response: %@", responseString);
     
-    NSArray *valueArray = [responseString componentsSeparatedByString:@"|"];
-    NSString *works = [valueArray objectAtIndex:0];
+   NSArray *valueArray = [responseString componentsSeparatedByString:@"|"];
+   NSString *works = [valueArray objectAtIndex:0];
     
-    if(![works isEqualToString:@"True"]){
+   if([works isEqualToString:@"True"]){
 		// Store the data
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
      
@@ -89,6 +88,11 @@
 	}else{
 		//Incorrect user, password combo
 	}
+}
+ 
+- (void)requestFailed:(ASIHTTPRequest *)request
+{
+   NSError *error = [request error];
 }
 
 @end
