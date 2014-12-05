@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "AppDelegate.h"
+#import "ASIHTTPRequest.h"
 @import CoreLocation;
 
 @interface ViewController ()
