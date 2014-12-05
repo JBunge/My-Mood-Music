@@ -7,6 +7,7 @@
 //
 
 #import "newaccountbg.h"
+#import "ASIHTTPRequest.h"
 
 @implementation newaccountbg
 @synthesize username, password, confirmpassword, year;
