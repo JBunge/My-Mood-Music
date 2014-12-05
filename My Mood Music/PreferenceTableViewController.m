@@ -7,6 +7,7 @@
 //
 
 #import "PreferenceTableViewController.h"
+#import "ASIHTTPRequest.h"
 
 @interface PreferenceTableViewController ()
 
